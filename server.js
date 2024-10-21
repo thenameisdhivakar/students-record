@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import cors from 'cors';
-let process = process || {}
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -22,19 +21,19 @@ const userSchema = new mongoose.Schema({
 const userModel = mongoose.model('userModel', userSchema);
 
 app.post('/submit', (req, res) => {
-    const formDatas = new userModel(req.body);
-    formDatas.save()
-        .then((datas) => res.json(datas))
+    const formstudents = new userModel(req.body);
+    formstudents.save()
+        .then((students) => res.json(students))
         .catch(() => res.status(500).send('data error'))
 });
 
-app.get('/datas', (req, res) => {
+app.get('/students', (req, res) => {
     userModel.find()
         .then((data) => res.json(data))
         .catch(() => res.status(500).send('error'))
 })
 
-app.delete('/datas/:id', (req, res) => {
+app.delete('/students/:id', (req, res) => {
     const { id } = req.params;
 
     userModel.findByIdAndDelete(id)
@@ -48,7 +47,7 @@ app.delete('/datas/:id', (req, res) => {
         .catch(() => res.status(500).send('Error deleting data'));
 });
 
-app.put('/datas/:id', (req, res) => {
+app.put('/students/:id', (req, res) => {
     const { id } = req.params;
     const updatedData = req.body;
 
