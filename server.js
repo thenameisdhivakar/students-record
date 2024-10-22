@@ -1,12 +1,15 @@
 import express from 'express';
+
 import mongoose from 'mongoose';
 
 import cors from 'cors';
 const app = express();
 app.use(cors());
 app.use(express.json());
-console.log('db connection ', process.env.MONGODB_URI)
-const mongoDBURI=process.env.MONGODB_URI
+
+const mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/student-db';
+console.log('db connection: ', mongoDBURI);
+
 mongoose.connect(mongoDBURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -18,9 +21,9 @@ const userSchema = new mongoose.Schema({
     feedback: String,
 });
 
-const userModel = mongoose.model('userModel', userSchema);
+const userModel = mongoose.model('users', userSchema);
 
-app.post('/submit', (req, res) => {
+app.post('/students', (req, res) => {
     const formstudents = new userModel(req.body);
     formstudents.save()
         .then((students) => res.json(students))
@@ -65,4 +68,4 @@ app.put('/students/:id', (req, res) => {
 
 
 const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on port${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
