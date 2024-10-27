@@ -2,19 +2,18 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-dotenv.config();
 
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const mongoDBURI = process.env.MONGODB_URI;
+const mongoDBURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/student-db';
 
-mongoose.connect(mongoDBURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+console.log("MongoDB URI:", mongoDBURI); 
+
+mongoose.connect(mongoDBURI);
 
 const userSchema = new mongoose.Schema({
     name: String,
